@@ -1,1 +1,10 @@
 // Coloque aqui suas actions
+// ACTIONS TYPES
+export const ADD_EMAIL = 'ADD_EMAIL';
+
+export const addEmail = (email) => (
+  {
+    type: 'ADD_EMAIL',
+    payload: email,
+  }
+);
