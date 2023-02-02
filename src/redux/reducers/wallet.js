@@ -1,19 +1,18 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-// const WALLET_STATE = {
-//   isDisabled: true,
-//   money: '',
-// };
+const WALLET_STATE = {
+  currencies: [],
+};
 
-// const wallet = (state = WALLET_STATE, action) => {
-//   switch (action.type) {
-//   case 'ADD_MONEY':
-//     return {
-//       ...state,
-//       money: action.payload,
-//     };
-//   default:
-//     return state;
-//   }
-// };
+const wallet = (state = WALLET_STATE, action) => {
+  switch (action.type) {
+  case 'SEARCH_SUCCESS':
+    return {
+      ...state,
+      currencies: action.payload,
+    };
+  default:
+    return state;
+  }
+};
 
-// export default wallet;
+export default wallet;

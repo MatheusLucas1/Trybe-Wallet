@@ -8,3 +8,23 @@ export const addEmail = (email) => (
     payload: email,
   }
 );
+
+export const searchBegin = () => (
+  { type: 'SEARCH_BEGIN' }
+);
+
+export const searchSuccess = (currencies) => (
+  { type: 'SEARCH_SUCCESS',
+    payload: currencies }
+);
+
+export function thunkCurrencies() {
+  return async (dispatch) => {
+    dispatch(searchBegin());
+    const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const data = await response.json();
+    const result = Object.keys(data).filter((_curr) => _curr !== 'USDT')
+      .map((key) => data[key]);
+    dispatch(searchSuccess(result));
+  };
+}

@@ -11,29 +11,9 @@ class Login extends React.Component {
       email: '',
       password: '',
     };
-    // this.handleEmail = this.handleEmail.bind(this);
-    // this.handlePassword = this.handlePassword.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-
-  // handleEmail({ target }) {
-  //   this.setState({
-  //     email: target.value,
-  //   });
-  //   const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  //   return target.value.match(validRegex);
-  // }
-
-  // handlePassword({ target }) {
-  //   this.setState({
-  //     password: target.value,
-  //   });
-  //   const n = 6;
-  //   const { value } = target;
-  //   const { length } = value;
-  //   return length >= n;
-  // }
 
   handleChange({ target }) {
     const { email, password } = this.state;
