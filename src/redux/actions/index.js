@@ -23,8 +23,7 @@ export function thunkCurrencies() {
     dispatch(searchBegin());
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
     const data = await response.json();
-    const result = Object.keys(data).filter((_curr) => _curr !== 'USDT')
-      .map((key) => data[key]);
+    const result = Object.keys(data).filter((_curr) => _curr !== 'USDT');
     dispatch(searchSuccess(result));
   };
 }
