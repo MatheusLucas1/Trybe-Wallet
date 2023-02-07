@@ -12,6 +12,13 @@ export const addEmail = (email) => (
   }
 );
 
+export const addExpense = (expense) => (
+  {
+    type: 'ADD_EXPENSES',
+    payload: expense,
+  }
+);
+
 export const searchSuccess = (currencies) => (
   { type: 'SEARCH_SUCCESS',
     payload: currencies,
@@ -39,11 +46,20 @@ export function thunkExpenses(state) {
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
     const data = await response.json();
     delete data.USDT;
+    console.log(data);
+    const newCurrency = state.currency;
+    const findCurrency = Object.values(data).filter((curr) => curr.code === newCurrency);
+    console.log(newCurrency);
+    const conversionValue = findCurrency[0].ask;
+    const valor = state.value * conversionValue;
+    const valorReal = parseFloat(valor.toFixed(2));
+
     const object = {
       ...state,
       exchangeRates: data,
     };
-    console.log(data);
+
     dispatch(thunkAction(object));
+    dispatch(addExpense(valorReal));
   };
 }

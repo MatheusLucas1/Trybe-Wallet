@@ -12,8 +12,7 @@ class WalletForm extends Component {
       description: '',
       method: 'Dinheiro',
       tag: 'Alimentação',
-      initialCurrency: 'USD',
-      totalValue: 0,
+      currency: 'USD',
     };
     this.handleChange = this.handleChange.bind(this);
     this.addExpense = this.addExpense.bind(this);
@@ -39,8 +38,7 @@ class WalletForm extends Component {
       description,
       method,
       tag,
-      initialCurrency,
-      totalValue,
+      currency,
     } = this.state;
     const newExpense = {
       id,
@@ -48,8 +46,7 @@ class WalletForm extends Component {
       description,
       method,
       tag,
-      initialCurrency,
-      totalValue,
+      currency,
     };
     dispatch(thunkExpenses(newExpense));
     this.setState((prevState) => ({
@@ -58,13 +55,13 @@ class WalletForm extends Component {
       description: '',
       method: 'Dinheiro',
       tag: 'Alimentação',
-      initialCurrency: 'USD',
+      currency: 'USD',
     }));
   }
 
   render() {
     const { currencies } = this.props;
-    const { value, description, tag, method, initialCurrency } = this.state;
+    const { value, description, tag, method, currency } = this.state;
     return (
       <div>
         <form>
@@ -102,16 +99,16 @@ class WalletForm extends Component {
           <select
             data-testid="currency-input"
             id="currency"
-            value={ initialCurrency }
-            name="initialCurrency"
+            value={ currency }
+            name="currency"
             onChange={ this.handleChange }
           >
-            {currencies.map((currency, index) => (
+            {currencies.map((_curr, index) => (
               <option
                 key={ index }
-                value={ currency }
+                value={ _curr }
               >
-                { currency }
+                { _curr }
 
               </option>
             ))}
