@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { removeExpense } from '../redux/actions/index';
 
 class Table extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(index) {
+    const { dispatch } = this.props;
+    dispatch(removeExpense(index));
+  }
+
   render() {
     const { wallet } = this.props;
     const { expenses } = wallet;
@@ -30,20 +41,26 @@ class Table extends Component {
               <td>{ data.method }</td>
               <td>{ parseFloat(data.value).toFixed(2) }</td>
               <td>
-                {(Object.values(data.exchangeRates)
-                  .filter((curr) => curr.code === data.currency)[0].name)}
+                {data.exchangeRates[data.currency].name}
 
               </td>
               <td>
-                {parseFloat((Object.values(data.exchangeRates)
-                  .filter((curr) => curr.code === data.currency)[0].ask)).toFixed(2)}
+                {parseFloat(data.exchangeRates[data.currency].ask).toFixed(2)}
               </td>
               <td>
-                { (data.value * (Object.values(data.exchangeRates)
-                  .filter((curr) => curr.code === data.currency)[0].ask)).toFixed(2) }
-
+                {(data.exchangeRates[data.currency].ask * data.value).toFixed(2)}
               </td>
               <td>Real</td>
+              <td>
+                <button
+                  type="button"
+                  data-testid="delete-btn"
+                  onClick={ () => this.handleClick(data.id) }
+                >
+                  Excluir
+                </button>
+
+              </td>
             </tr>
           ))}
         </tbody>
@@ -62,7 +79,7 @@ Table.propTypes = {
     expenses: PropTypes.arrayOf(PropTypes.shape({})),
     totalValue: PropTypes.number,
   }).isRequired,
-
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(Table);

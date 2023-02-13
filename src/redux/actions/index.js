@@ -1,7 +1,11 @@
 // Coloque aqui suas actions
 // ACTIONS TYPES
+const API = 'https://economia.awesomeapi.com.br/json/all';
+
 export const ADD_EMAIL = 'ADD_EMAIL';
 export const ADD_EXPENSES = 'ADD_EXPENSES';
+export const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
+export const EDIT_EXPENSE = 'EDIT_EXPENSE';
 export const THUNK_EXPENSE = 'THUNK_EXPENSE';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 
@@ -19,6 +23,20 @@ export const addExpense = (expense) => (
   }
 );
 
+export const removeExpense = (expense) => (
+  {
+    type: 'REMOVE_EXPENSE',
+    payload: expense,
+  }
+);
+
+export const editValue = (value) => (
+  {
+    type: 'EDIT_EXPENSE',
+    payload: value,
+  }
+);
+
 export const searchSuccess = (currencies) => (
   { type: 'SEARCH_SUCCESS',
     payload: currencies,
@@ -27,7 +45,7 @@ export const searchSuccess = (currencies) => (
 
 export function thunkCurrencies() {
   return async (dispatch) => {
-    const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const response = await fetch(API);
     const data = await response.json();
     const currencies = Object.keys(data).filter((_curr) => _curr !== 'USDT');
     dispatch(searchSuccess(currencies));
@@ -41,25 +59,16 @@ export const thunkAction = (currencies) => (
 );
 
 export function thunkExpenses(state) {
-  console.log(state);
   return async (dispatch) => {
-    const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const response = await fetch(API);
     const data = await response.json();
     delete data.USDT;
-    console.log(data);
-    const newCurrency = state.currency;
-    const findCurrency = Object.values(data).filter((curr) => curr.code === newCurrency);
-    console.log(newCurrency);
-    const conversionValue = findCurrency[0].ask;
-    const valor = state.value * conversionValue;
-    const valorReal = parseFloat(valor.toFixed(2));
-
+    console.log(typeof valor);
     const object = {
       ...state,
       exchangeRates: data,
     };
 
     dispatch(thunkAction(object));
-    dispatch(addExpense(valorReal));
   };
 }
